@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-lesson1.yaml
+  - changeSet:
+      id: 1
+      author: vasyukov_kirill_liquibase
+      precondition:
+        not:
+          tableExist:
+            tableName: users
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: surname
+                  type: varchar(255)
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: patronymic
+                  type: varchar(255)
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: dateofbirth
+                  type: date
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: lastchange
+                  type: TIMESTAMP WITHOUT TIME ZONE
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: deactivated
+                  type: BOOLEAN
+                  constraints:
+                    unique: false
+                    nullable: false
