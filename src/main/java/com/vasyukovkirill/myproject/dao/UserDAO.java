@@ -2,10 +2,7 @@ package com.vasyukovkirill.myproject.dao;
 
 import com.vasyukovkirill.myproject.dto.UserDTO;
 import com.vasyukovkirill.myproject.entity.User;
-import com.vasyukovkirill.myproject.exceptions.DataNotFoundException;
-import com.vasyukovkirill.myproject.exceptions.IncorrectSpecificationException;
-import com.vasyukovkirill.myproject.exceptions.NotFoundUserException;
-import com.vasyukovkirill.myproject.exceptions.SaveEntityException;
+import com.vasyukovkirill.myproject.exceptions.*;
 import com.vasyukovkirill.myproject.mappers.UserMapper;
 import com.vasyukovkirill.myproject.specifications.UserSpecifications;
 import lombok.RequiredArgsConstructor;
@@ -67,6 +64,8 @@ public class UserDAO {
                 || isValid(userDTO.getPatronymic())
                 || (userDTO.getDateOfBirth() != null)) {
             listUserSpecification.add(UserSpecifications.equalDeactivated(false));
+        } else {
+            throw new IsEmptySearchQueryException();
         }
 
         Specification<User> userSpecification = listUserSpecification.get(0);
