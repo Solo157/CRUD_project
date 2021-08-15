@@ -25,4 +25,9 @@ public interface UserMapper {
     @Mapping(source = "surName", target = "surname")
     List<UserDTO> toUserDTOs(List<User> users);
 
+    @Mapping(target = "deactivated", ignore = true)
+    @Mapping(target = "lastChange", ignore = true)
+    @Mapping(source = "surname", target = "surName")
+    public abstract void merge(@MappingTarget User target, UserDTO source);
+
 }

@@ -21,23 +21,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UsersRepository usersRepository;
     private final UserDAO userDAO;
 
     @Override
     public List<UserDTO> getAllUsers() {
         List<User> getAllUsers = userDAO.getAllUsers();
-        if (getAllUsers.size() == 0) {
-            throw new DataNotFoundException();
-        }
         return UserMapper.INSTANCE.toUserDTOs(getAllUsers);
     }
 
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
-        if (userDTO.getId() > 0) {
-            throw new SaveEntityException();
-        }
         User user = UserMapper.INSTANCE.toUserEntity(userDTO);
         user.setLastChange(LocalDateTime.now());
         return UserMapper.INSTANCE.toUserDTO(userDAO.saveUser(user));
@@ -45,26 +38,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateUser(UserDTO userDTO, int id) {
-        Optional<User> optionalUser = usersRepository.findById(id);
-        if (!optionalUser.isPresent()) {
-            throw new NotFoundUserException();
-        }
+        User user = userDAO.findById(id);
         userDTO.setId(id);
-        User user = UserMapper.INSTANCE.toUserEntity(userDTO);
+        UserMapper.INSTANCE.merge(user, userDTO);
         user.setLastChange(LocalDateTime.now());
         return UserMapper.INSTANCE.toUserDTO(userDAO.saveUser(user));
     }
 
     @Override
     public String deleteUser(int id) {
-        Optional<User> optionalUser = usersRepository.findById(id);
-        if (!optionalUser.isPresent()) {
-            throw new NotFoundUserException();
-        }
-        User user = optionalUser.get();
+        User user = userDAO.findById(id);
         user.setDeactivated(true);
         user.setLastChange(LocalDateTime.now());
-        usersRepository.save(user);
+        userDAO.saveUser(user);
         return "User with ID = " + user.getId() + " was deactivated.";
     }
 
