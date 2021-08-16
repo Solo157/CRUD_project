@@ -3,13 +3,12 @@ package com.vasyukovkirill.myproject.dao;
 import com.vasyukovkirill.myproject.dto.UserDTO;
 import com.vasyukovkirill.myproject.entity.User;
 import com.vasyukovkirill.myproject.exceptions.*;
-import com.vasyukovkirill.myproject.mappers.UserMapper;
-import com.vasyukovkirill.myproject.specifications.UserSpecifications;
+import com.vasyukovkirill.myproject.dao.specifications.UserSpecifications;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +37,7 @@ public class UserDAO {
         if (isValid(user.getName())
                 && isValid(user.getSurName())
                 && isValid(user.getPatronymic()) && user.getDateOfBirth() != null) {
+            user.setLastChange(LocalDateTime.now());
             return usersRepository.save(user);
         } else {
               throw new SaveEntityException();

@@ -1,12 +1,8 @@
 package com.vasyukovkirill.myproject.service;
 
 import com.vasyukovkirill.myproject.dao.UserDAO;
-import com.vasyukovkirill.myproject.dao.UsersRepository;
 import com.vasyukovkirill.myproject.dto.UserDTO;
 import com.vasyukovkirill.myproject.entity.User;
-import com.vasyukovkirill.myproject.exceptions.DataNotFoundException;
-import com.vasyukovkirill.myproject.exceptions.NotFoundUserException;
-import com.vasyukovkirill.myproject.exceptions.SaveEntityException;
 import com.vasyukovkirill.myproject.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -32,7 +27,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
         User user = UserMapper.INSTANCE.toUserEntity(userDTO);
-        user.setLastChange(LocalDateTime.now());
         return UserMapper.INSTANCE.toUserDTO(userDAO.saveUser(user));
     }
 
@@ -41,7 +35,6 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.findById(id);
         userDTO.setId(id);
         UserMapper.INSTANCE.merge(user, userDTO);
-        user.setLastChange(LocalDateTime.now());
         return UserMapper.INSTANCE.toUserDTO(userDAO.saveUser(user));
     }
 

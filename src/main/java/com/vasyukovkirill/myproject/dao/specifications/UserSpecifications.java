@@ -1,16 +1,10 @@
-package com.vasyukovkirill.myproject.specifications;
+package com.vasyukovkirill.myproject.dao.specifications;
 
-import com.vasyukovkirill.myproject.dto.UserDTO;
 import com.vasyukovkirill.myproject.entity.User;
 import com.vasyukovkirill.myproject.entity.User_;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 public class UserSpecifications {
 
