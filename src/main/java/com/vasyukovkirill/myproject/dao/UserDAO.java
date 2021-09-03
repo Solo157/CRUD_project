@@ -5,6 +5,8 @@ import com.vasyukovkirill.myproject.entity.User;
 import com.vasyukovkirill.myproject.exceptions.*;
 import com.vasyukovkirill.myproject.dao.specifications.UserSpecifications;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
@@ -20,31 +22,25 @@ public class UserDAO {
 
     private final UsersRepository usersRepository;
 
-    public List<User> getSearchList(UserDTO userDTO) {
-        Optional<Specification<User>> optionalUserSpecification = allSpecification(userDTO);
-        return optionalUserSpecification.map(usersRepository::findAll).orElse(Collections.emptyList());
+    public List<User> getSearchList(UserDTO userDTO, Pageable pageable) {
+        return convertPageToList(usersRepository.findAll(allSpecification(userDTO), pageable));
     }
 
-    public List<User> getAllUsers(){
-        List<User> getAllUsers = usersRepository.findAll(UserSpecifications.equalDeactivated(false));
-        if (getAllUsers.size() == 0) {
-            throw new DataNotFoundException();
-        }
-        return getAllUsers;
+    private List<User> convertPageToList(Page<User> page) {
+        List<User> userList = new ArrayList<>();
+        page.map(userList::add);
+        return userList;
+    }
+
+    public List<User> getAllUsers(Pageable pageable){
+        return convertPageToList(usersRepository.findAll(UserSpecifications.equalDeactivated(false), pageable));
     }
 
     public User saveUser(User user) {
-        if (isValid(user.getName())
-                && isValid(user.getSurName())
-                && isValid(user.getPatronymic()) && user.getDateOfBirth() != null) {
-            user.setLastChange(LocalDateTime.now());
-            return usersRepository.save(user);
-        } else {
-              throw new SaveEntityException();
-        }
+        return usersRepository.save(user);
     }
 
-    private Optional<Specification<User>> allSpecification(UserDTO userDTO){
+    private Specification<User> allSpecification(UserDTO userDTO){
         List<Specification<User>> listUserSpecification = new ArrayList<>();
         if (isValid(userDTO.getSurname())){
             listUserSpecification.add(UserSpecifications.equalSurName(userDTO.getSurname()));
@@ -58,6 +54,7 @@ public class UserDAO {
         if (userDTO.getDateOfBirth() != null) {
             listUserSpecification.add(UserSpecifications.equalDateOfBirth(userDTO.getDateOfBirth()));
         }
+
         /* It's finding only active users */
         if (isValid(userDTO.getSurname())
                 || isValid(userDTO.getName())
@@ -68,11 +65,11 @@ public class UserDAO {
             throw new IsEmptySearchQueryException();
         }
 
-        Specification<User> userSpecification = listUserSpecification.get(0);
-        for (int i = 1; i < listUserSpecification.size(); i++) {
-            userSpecification = userSpecification.and(listUserSpecification.get(i));
-        }
-        return Optional.ofNullable(userSpecification);
+        final Specification<User> userSpecification = listUserSpecification.get(0);
+        listUserSpecification.remove(0);
+        listUserSpecification.forEach(userSpecification::and);
+
+        return userSpecification;
 
     }
 
@@ -82,7 +79,7 @@ public class UserDAO {
 
     public User findById(int id) {
         Optional<User> optionalUser = usersRepository.findById(id);
-        if (!optionalUser.isPresent()) {
+        if (optionalUser.isEmpty()) {
             throw new NotFoundUserException();
         }
         return optionalUser.get();

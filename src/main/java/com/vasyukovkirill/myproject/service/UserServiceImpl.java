@@ -5,9 +5,12 @@ import com.vasyukovkirill.myproject.dto.UserDTO;
 import com.vasyukovkirill.myproject.entity.User;
 import com.vasyukovkirill.myproject.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,8 +22,8 @@ public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
 
     @Override
-    public List<UserDTO> getAllUsers() {
-        List<User> getAllUsers = userDAO.getAllUsers();
+    public List<UserDTO> getAllUsers(Pageable pageable) {
+        List<User> getAllUsers = userDAO.getAllUsers(pageable);
         return UserMapper.INSTANCE.toUserDTOs(getAllUsers);
     }
 
@@ -48,13 +51,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> searchUsers(UserDTO userDTO) {
-        List<User> users = userDAO.getSearchList(userDTO);
-        if (users.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            return UserMapper.INSTANCE.toUserDTOs(users);
-        }
+    public List<UserDTO> searchUsers(UserDTO userDTO, Pageable pageable) {
+        List<User> users = userDAO.getSearchList(userDTO, pageable);
+        return UserMapper.INSTANCE.toUserDTOs(users);
+
     }
 
 }

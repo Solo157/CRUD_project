@@ -10,26 +10,31 @@ repositories {
     mavenCentral()
 }
 
+ext.springframeworkVersion = '2.5.3'
+ext.projectLombokVersion = '1.18.20'
+ext.postgresqlVersion = '42.2.23'
+ext.liquibaseVersion = '4.4.3'
+ext.mapstructVersion = '1.4.2.Final'
+ext.h2databaseVersion = '1.4.200'
+ext.hibernateVersion = '5.5.6.Final'
+ext.validationVersion = '2.0.1.Final'
+
 dependencies {
-
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.5.3'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.5.3'
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.23'
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.5.3'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.5.3'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.5.3'
-    implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.4.3'
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
-    implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.4.2.Final'
-    annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.4.2.Final'
-    testImplementation group: 'com.h2database', name: 'h2', version: '1.4.200'
-    annotationProcessor group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: '5.5.6.Final'
-
-
-
-
-
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springframeworkVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springframeworkVersion
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springframeworkVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: springframeworkVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springframeworkVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: springframeworkVersion
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: projectLombokVersion
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: projectLombokVersion
+    implementation group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
+    implementation group: 'org.liquibase', name: 'liquibase-core', version: liquibaseVersion
+    implementation group: 'org.mapstruct', name: 'mapstruct', version: mapstructVersion
+    annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: mapstructVersion
+    testImplementation group: 'com.h2database', name: 'h2', version:  h2databaseVersion
+    annotationProcessor group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: hibernateVersion
+    implementation group: 'javax.validation', name: 'validation-api', version: validationVersion
 }
 
 test {

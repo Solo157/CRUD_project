@@ -2,6 +2,8 @@ package com.vasyukovkirill.myproject.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 @Setter
 @Getter
+@EnableJpaAuditing
 public class User {
 
     @Id
@@ -31,6 +34,7 @@ public class User {
     private LocalDate dateOfBirth;
 
     @Column(name = "lastchange")
+    @LastModifiedDate
     private LocalDateTime lastChange;
 
     @Column(name = "deactivated")
