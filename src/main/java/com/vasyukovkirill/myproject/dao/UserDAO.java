@@ -56,10 +56,7 @@ public class UserDAO {
         }
 
         /* It's finding only active users */
-        if (isValid(userDTO.getSurname())
-                || isValid(userDTO.getName())
-                || isValid(userDTO.getPatronymic())
-                || (userDTO.getDateOfBirth() != null)) {
+        if (!listUserSpecification.isEmpty()) {
             listUserSpecification.add(UserSpecifications.equalDeactivated(false));
         } else {
             throw new IsEmptySearchQueryException();

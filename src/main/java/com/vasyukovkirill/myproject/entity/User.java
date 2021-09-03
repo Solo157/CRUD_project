@@ -3,6 +3,7 @@ package com.vasyukovkirill.myproject.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 @Setter
 @Getter
-@EnableJpaAuditing
+@EntityListeners (AuditingEntityListener.class)
 public class User {
 
     @Id
