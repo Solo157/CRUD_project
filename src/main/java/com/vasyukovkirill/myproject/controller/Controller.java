@@ -1,5 +1,6 @@
 package com.vasyukovkirill.myproject.controller;
 
+import com.vasyukovkirill.myproject.dto.DetailDTO;
 import com.vasyukovkirill.myproject.dto.UserDTO;
 import com.vasyukovkirill.myproject.service.UserService;
 import lombok.RequiredArgsConstructor;

@@ -37,6 +37,8 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateUser(UserDTO userDTO, int id) {
         User user = userDAO.findById(id);
         userDTO.setId(id);
+        if (user.getDetail() != null && userDTO.getDetail() != null)
+        userDTO.getDetail().setId(user.getDetail().getId());
         UserMapper.INSTANCE.merge(user, userDTO);
         return UserMapper.INSTANCE.toUserDTO(userDAO.saveUser(user));
     }

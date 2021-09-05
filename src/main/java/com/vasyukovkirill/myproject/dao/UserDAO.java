@@ -79,6 +79,9 @@ public class UserDAO {
         if (optionalUser.isEmpty()) {
             throw new NotFoundUserException();
         }
+        if (optionalUser.get().isDeactivated()) {
+            throw new UpdateEntityException();
+        }
         return optionalUser.get();
     }
 

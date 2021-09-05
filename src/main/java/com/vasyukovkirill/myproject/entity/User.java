@@ -41,4 +41,8 @@ public class User {
     @Column(name = "deactivated")
     private boolean deactivated;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "details_id")
+    private Detail detail;
+
 }

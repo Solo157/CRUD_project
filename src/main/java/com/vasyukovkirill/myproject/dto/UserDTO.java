@@ -29,4 +29,6 @@ public class UserDTO {
     @NotNull
     private LocalDate dateOfBirth;
 
+    private DetailDTO detail;
+
 }

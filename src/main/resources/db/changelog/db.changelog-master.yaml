@@ -43,6 +43,12 @@ databaseChangeLog:
                     unique: false
                     nullable: false
               - column:
+                  name: details_id
+                  type: INT
+                  constraints:
+                    unique: true
+                    nullable: true
+              - column:
                   name: lastchange
                   type: TIMESTAMP WITHOUT TIME ZONE
                   constraints:
@@ -54,3 +60,55 @@ databaseChangeLog:
                   constraints:
                     unique: false
                     nullable: false
+  - changeSet:
+      id: 2
+      author: vasyukov_kirill_liquibase
+      precondition:
+        not:
+          tableExist:
+            tableName: details
+      changes:
+        - createTable:
+            tableName: details
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: city
+                  type: varchar(60)
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: phone_number
+                  type: varchar(60)
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(60)
+                  constraints:
+                    unique: false
+                    nullable: false
+              - column:
+                  name: lastchange
+                  type: TIMESTAMP WITHOUT TIME ZONE
+                  constraints:
+                    unique: false
+                    nullable: false
+  - changeSet:
+      id: 3
+      author: vasyukov_kirill_liquibase
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: details_id
+            baseTableName: users
+            constraintName: fk_users_details_id
+            referencedColumnNames: id
+            referencedTableName: details
