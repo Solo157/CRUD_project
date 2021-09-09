@@ -1,8 +1,10 @@
 package com.vasyukovkirill.myproject.mappers;
 
 import com.vasyukovkirill.myproject.dto.DetailDTO;
+import com.vasyukovkirill.myproject.dto.NotebooksDTO;
 import com.vasyukovkirill.myproject.dto.UserDTO;
 import com.vasyukovkirill.myproject.entity.Detail;
+import com.vasyukovkirill.myproject.entity.Notebooks;
 import com.vasyukovkirill.myproject.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -30,9 +32,19 @@ public interface UserMapper {
     default DetailDTO toDetailDTO(Detail detail) {
         return DetailMapper.INSTANCE.toDetailDTO(detail);
     }
+    default Notebooks toNotebooksEntity(NotebooksDTO notebooksDTO) {
+        return NotebooksMapper.INSTANCE.toNotebooksEntity(notebooksDTO);
+    }
+    default NotebooksDTO toNotebooksDTO(Notebooks notebooks){
+        return NotebooksMapper.INSTANCE.toNotebooksDTO(notebooks);
+    }
 
     @Mapping(source = "surName", target = "surname")
     List<UserDTO> toUserDTOs(List<User> users);
+
+    default List<Notebooks> toNotebooksEntities(List<NotebooksDTO> notebooksDTOList) {
+        return NotebooksMapper.INSTANCE.toNotebooksEntities(notebooksDTOList);
+    }
 
     @Mapping(target = "deactivated", ignore = true)
     @Mapping(target = "lastChange", ignore = true)

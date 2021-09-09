@@ -105,6 +105,42 @@ databaseChangeLog:
   - changeSet:
       id: 3
       author: vasyukov_kirill_liquibase
+      precondition:
+        not:
+          tableExist:
+            tableName: notebooks
+      changes:
+        - createTable:
+            tableName: notebooks
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: record
+                  type: text
+                  constraints:
+                    unique: false
+                    nullable: true
+              - column:
+                  name: users_id
+                  type: INT
+                  constraints:
+                    unique: false
+                    nullable: true
+              - column:
+                  name: lastchange
+                  type: TIMESTAMP WITHOUT TIME ZONE
+                  constraints:
+                    unique: false
+                    nullable: false
+  - changeSet:
+      id: 4
+      author: vasyukov_kirill_liquibase
       changes:
         - addForeignKeyConstraint:
             baseColumnNames: details_id
@@ -112,3 +148,13 @@ databaseChangeLog:
             constraintName: fk_users_details_id
             referencedColumnNames: id
             referencedTableName: details
+  - changeSet:
+      id: 5
+      author: vasyukov_kirill_liquibase
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: users_id
+            baseTableName: notebooks
+            constraintName: fk_notebooks_users_id
+            referencedColumnNames: id
+            referencedTableName: users

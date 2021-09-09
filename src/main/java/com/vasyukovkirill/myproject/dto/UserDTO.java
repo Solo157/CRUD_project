@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,5 +31,6 @@ public class UserDTO {
     private LocalDate dateOfBirth;
 
     private DetailDTO detail;
+    private List<NotebooksDTO> notebooks;
 
 }
